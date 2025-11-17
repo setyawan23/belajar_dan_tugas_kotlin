@@ -1,0 +1,81 @@
+No 1
+Teorema CAP menyatakan bahwa dalam sistem terdistribusi 
+tidak mungkin untuk menjamin tiga properti utama secara 
+bersamaan, yaitu Consistency, Availability, dan Partition 
+Tolerance. Ketika terjadi gangguan jaringan atau pemisahan
+antar node, sistem harus memilih dua dari tiga properti
+tersebut sehingga konsistensi penuh atau ketersediaan
+layanan mungkin perlu dikorbankan. Sementara itu,
+pendekatan BASE (Basically Available, Soft state,
+Eventual consistency) merupakan model yang lebih fleksibel
+dibandingkan ACID, di mana sistem tetap beroperasi meskipun 
+data belum sepenuhnya konsisten dan konsistensi akan dicapai 
+secara bertahap. Pendekatan BASE muncul sebagai strategi 
+untuk menghadapi keterbatasan CAP, khususnya ketika sebuah 
+sistem memprioritaskan Availability dan Partition Tolerance.
+
+Keterkaitan CAP dan BASE terlihat dalam perancangan arsitektur
+sistem yang membutuhkan skalabilitas dan toleransi gangguan tinggi. 
+BASE secara praktis digunakan ketika pengembang menerima bahwa 
+konsistensi kuat tidak selalu dapat dipertahankan akibat
+tuntutan ketersediaan layanan. Contoh penerapannya dapat dilihat
+ketika saya menggunakan MongoDB dengan konfigurasi replika set,
+di mana proses penyimpanan data tetap diterima meskipun salah 
+satu node belum tersinkronisasi. Mekanisme ini membuat sistem
+tetap tersedia dan toleran terhadap gangguan, sesuai prinsip CAP, 
+sementara konsistensi akan tercapai kemudian sesuai konsep 
+eventual consistency pada BASE.
+
+No 2
+GraphQL memiliki keterkaitan dengan komunikasi antar proses pada 
+sistem terdistribusi karena GraphQL berfungsi sebagai lapisan 
+antarmuka yang menyatukan berbagai layanan terpisah sehingga 
+klien dapat melakukan permintaan data secara efisien.
+Setiap layanan berjalan sebagai proses terpisah (misalnya microservices), 
+dan GraphQL bertindak sebagai gateway yang mengatur bagaimana klien berinteraksi 
+dengan layanan tersebut. Ketika klien mengirimkan query GraphQL, 
+server GraphQL akan memecah permintaan tersebut dan meneruskannya 
+ke layanan terkait melalui mekanisme komunikasi antar proses seperti 
+HTTP request, RPC, atau message queue. Dengan cara ini, GraphQL 
+menyederhanakan interaksi klien sekaligus memusatkan pengelolaan 
+data yang tersebar di banyak proses.
+
+diagram
+                         -----------------
+                        |     Klien      |
+                        -----------------
+                                 |
+                                 |  Query GraphQL
+                                 v
+                     ---------------------------
+                     |   GraphQL Server / API    |
+                     |          Gateway          |
+                     -----------------------------
+                        /            |            \
+                       /             |             \
+                      v              v              v
+           ----------------+ +----------------+ +----------------+
+          |   Service A    |  |   Service B    |  |   Service C    |
+          | (Proses terpisah) | (Proses terpisah) | (Proses terpisah) |
+            ---------------+ +----------------+ +----------------+
+               |                 |                 |
+               | Komunikasi antar proses (HTTP/RPC/Message Queue)
+               \_________________|_________________/
+                                 |
+                                 v
+                     +---------------------------+
+                     | GraphQL menggabungkan     |
+                     | data dari seluruh service |
+                     +---------------------------+
+                                 |
+                                 v
+                        +----------------+
+                        |  Klien menerima|
+                        |    respons     |
+                        +----------------+
+
+no 3
+
+
+nim  : 235410083
+nama : jeky setyawan
